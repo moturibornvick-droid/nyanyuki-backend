@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyanyuki.site – Free DBot & Tools</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+body { font-family:sans-serif; margin:0; padding:0; background:#0f172a; color:#e5e7eb; scroll-behavior:smooth; }
+header { background:#020617; padding:20px; display:flex; justify-content:space-between; align-items:center; }
+.logo h1, .logo p { margin:0; }
+.logo p { font-size:0.9rem; margin-top:5px; }
+.auth-area a { margin-left:10px; padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; }
+.login-btn { background:#22c55e; color:#022c22; }
+.logout-btn { background:#ef4444; color:white; display:none; }
+.user-status { color:#22c55e; font-size:0.9rem; display:none; }
+.navbar { display:flex; overflow-x:auto; background:#1e293b; padding:10px 0; white-space:nowrap; }
+.navbar a { display:inline-block; color:#e5e7eb; padding:10px 20px; text-decoration:none; font-weight:600; }
+.navbar a:hover { background:#22c55e; color:#022c22; border-radius:10px; }
+section { padding:50px 20px; max-width:1100px; margin:auto; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; margin-top:30px; }
+.card { background:#020617; padding:25px; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.3); }
+.btn-primary, .btn-secondary { display:inline-block; margin:5px 0; padding:10px 18px; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:600; }
+.btn-primary { background:#22c55e; color:#022c22; }
+.btn-secondary { background:#1e293b; color:#e5e7eb; }
+footer { text-align:center; padding:30px; font-size:1.4rem; color:#94a3b8; }
+.social-links a { margin:0 10px; color:#22c55e; text-decoration:none; font-weight:600; }
+#bot-settings-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; }
+#bot-settings-content { background:#0f172a; padding:30px; border-radius:15px; max-width:400px; width:90%; }
+#bot-settings-content input { width:100%; padding:8px; margin:8px 0; border-radius:6px; border:none; }
+.whatsapp-button { position:fixed; bottom:20px; right:20px; background:#25d366; color:white; padding:15px 20px; border-radius:50px; font-weight:bold; text-decoration:none; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <h1>Nyanyuki.site</h1>
+    <p>Free DBot Strategies • Volatility Tools • Live Analysis</p>
+  </div>
+  <div class="auth-area">
+    <span id="userStatus" class="user-status">Logged in</span>
+    <span id="balanceDisplay" style="color:#22c55e; margin-left:10px;"></span>
+    <a href="https://nyanyuki-backend.onrender.com/auth/deriv" class="login-btn" id="loginBtn">Login / Sign Up</a>
+    <a href="#" class="logout-btn" id="logoutBtn" onclick="logout()">Logout</a>
+  </div>
+</header>
+
+<div class="navbar">
+  <a href="#freebots">🤖 Free Bots</a>
+  <a href="#botsettings">⚙ Bot Settings</a>
+  <a href="#charts">📊 Charts</a>
+  <a href="#dcircles">⭕ DCircles</a>
+  <a href="#analysis">📈 Analysis</a>
+  <a href="#tools">🛠 Tools</a>
+  <a href="#copytrading">📋 Copytrading</a>
+  <a href="#strategy">📘 Strategy</a>
+  <a href="#signals">🚨 Signals</a>
+  <a href="#tutorials">🎓 Tutorials</a>
+</div>
+
+<!-- Free Bots Section -->
+<section id="freebots">
+<h2>FreeBot Strategies</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Volatility 50 Trend Bot</h3>
+    <p>Trend-following DBot strategy for stable volatility.</p>
+    <a class="btn-primary" href="/bots/vol50_trend.xml" download>Download Bot</a>
+    <a class="btn-secondary" href="#" onclick="tradeBot('Volatility 50 Trend Bot', 2)">Trade Now</a>
+  </div>
+  <div class="card">
+    <h3>Volatility Martingale Bot</h3>
+    <p>Stake 2, multiplier 2, max 9 trades</p>
+    <a class="btn-primary" href="/bots/vol50_martingale.xml" download>Download Bot</a>
+    <a class="btn-secondary" href="#" onclick="tradeBot('Volatility Martingale Bot', 2)">Trade Now</a>
+  </div>
+</div>
+</section>
+
+<!-- Bot Settings Modal -->
+<div id="bot-settings-modal">
+<div id="bot-settings-content">
+<h3 id="bot-settings-title">Bot Settings</h3>
+<label>Stake:</label>
+<input type="number" id="bot-stake" value="2">
+<label>Multiplier:</label>
+<input type="number" id="bot-multiplier" value="2">
+<label>Max Trades:</label>
+<input type="number" id="bot-maxtrades" value="9">
+<button onclick="saveBotSettings()">Save Settings</button>
+<button onclick="closeBotSettings()">Cancel</button>
+</div>
+</div>
+
+<a href="https://wa.me/254716038792" target="_blank" class="whatsapp-button">Chat with Me</a>
+
+<footer>
+<p>© 2025 Nyanyuki.site • Trading is risky. Bots are for educational purposes only.</p>
+<div class="social-links">
+  <a href="https://www.facebook.com/nyanyuki.bornvick" target="_blank">Facebook</a>
+  <a href="https://www.instagram.com/nyanyuki_bornvick" target="_blank">Instagram</a>
+</div>
+</footer>
+
+<script>
+// ---------------------
+// Bot Settings Logic
+// ---------------------
+let currentBot = '';
+function openBotSettings(botName){
+  currentBot = botName;
+  document.getElementById('bot-settings-title').innerText = botName + " Settings";
+  document.getElementById('bot-settings-modal').style.display = 'flex';
+}
+function closeBotSettings(){ document.getElementById('bot-settings-modal').style.display='none'; }
+function saveBotSettings(){
+  const stake=document.getElementById('bot-stake').value;
+  const multiplier=document.getElementById('bot-multiplier').value;
+  const maxTrades=document.getElementById('bot-maxtrades').value;
+  localStorage.setItem(currentBot+"_settings", JSON.stringify({stake,multiplier,maxTrades}));
+  alert("Settings saved for "+currentBot);
+  closeBotSettings();
+}
+
+// ---------------------
+// Deriv Login Logic
+// ---------------------
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+if(token){
+  localStorage.setItem("deriv_token", token);
+  window.history.replaceState({}, document.title, "/");
+}
+
+if(localStorage.getItem("deriv_token")){
+  document.getElementById("loginBtn").style.display="none";
+  document.getElementById("logoutBtn").style.display="inline-block";
+  document.getElementById("userStatus").style.display="inline";
+  showBalance();
+}
+
+function logout(){
+  localStorage.removeItem("deriv_token");
+  location.reload();
+}
+
+// ---------------------
+// Fetch Deriv Balance
+// ---------------------
+async function showBalance(){
+  const token = localStorage.getItem("deriv_token");
+  try{
+    const res = await fetch("https://nyanyuki-backend.onrender.com/balance", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    document.getElementById("balanceDisplay").innerText = `Balance: ${data.balance || 0}`;
+  } catch(err){
+    console.error("Balance fetch error", err);
+  }
+}
+
+// ---------------------
+// Place trade from Free Bot
+// ---------------------
+async function tradeBot(botName, stake=2){
+  const token = localStorage.getItem("deriv_token");
+  try{
+    const res = await fetch("https://nyanyuki-backend.onrender.com/trade", {
+      method: "POST",
+      headers: { "Content-Type":"application/json", "Authorization": `Bearer ${token}` },
+      body: JSON.stringify({ botName, stake })
+    });
+    const result = await res.json();
+    alert("Trade Result: " + JSON.stringify(result));
+    showBalance();
+  } catch(err){
+    console.error("Trade error", err);
+  }
+}
+</script>
+
+</body>
+</html>
