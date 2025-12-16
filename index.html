@@ -1,187 +1,2674 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nyanyuki.site – Free DBot & Tools</title>
-<link rel="icon" type="image/png" href="favicon.png">
-
-<style>
-body { font-family:sans-serif; margin:0; padding:0; background:#0f172a; color:#e5e7eb; scroll-behavior:smooth; }
-header { background:#020617; padding:20px; display:flex; justify-content:space-between; align-items:center; }
-.logo h1, .logo p { margin:0; }
-.logo p { font-size:0.9rem; margin-top:5px; }
-.auth-area a { margin-left:10px; padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; }
-.login-btn { background:#22c55e; color:#022c22; }
-.logout-btn { background:#ef4444; color:white; display:none; }
-.user-status { color:#22c55e; font-size:0.9rem; display:none; }
-.navbar { display:flex; overflow-x:auto; background:#1e293b; padding:10px 0; white-space:nowrap; }
-.navbar a { display:inline-block; color:#e5e7eb; padding:10px 20px; text-decoration:none; font-weight:600; }
-.navbar a:hover { background:#22c55e; color:#022c22; border-radius:10px; }
-section { padding:50px 20px; max-width:1100px; margin:auto; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; margin-top:30px; }
-.card { background:#020617; padding:25px; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.3); }
-.btn-primary, .btn-secondary { display:inline-block; margin:5px 0; padding:10px 18px; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:600; }
-.btn-primary { background:#22c55e; color:#022c22; }
-.btn-secondary { background:#1e293b; color:#e5e7eb; }
-footer { text-align:center; padding:30px; font-size:1.4rem; color:#94a3b8; }
-.social-links a { margin:0 10px; color:#22c55e; text-decoration:none; font-weight:600; }
-#bot-settings-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; }
-#bot-settings-content { background:#0f172a; padding:30px; border-radius:15px; max-width:400px; width:90%; }
-#bot-settings-content input { width:100%; padding:8px; margin:8px 0; border-radius:6px; border:none; }
-.whatsapp-button { position:fixed; bottom:20px; right:20px; background:#25d366; color:white; padding:15px 20px; border-radius:50px; font-weight:bold; text-decoration:none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Dynamic Favicon and Title Script -->
+    <script>
+        (function() {
+            const config = {
+                favicon: '/nyanyuki-logo.png',
+                name: 'Nyanyuki Trading',
+                title: 'Nyanyuki Trading - Free Deriv Bots & Bot Builder',
+                color: '#4a00e0'
+            };
+            
+            // Set favicon
+            const link = document.createElement('link');
+            link.rel = 'icon';
+            link.href = config.favicon;
+            document.head.appendChild(link);
+            
+            // Set theme color
+            const themeColor = document.createElement('meta');
+            themeColor.name = 'theme-color';
+            themeColor.content = config.color;
+            document.head.appendChild(themeColor);
+            
+            // Set dynamic title
+            document.title = config.title;
+        })();
+    </script>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Nyanyuki Trading - Free Deriv Bots & Bot Builder Platform" />
+    <meta name="description" content="Build and run free Deriv trading bots without coding. Use our Bot Builder to create custom strategies or choose from our free pre-built bots." />
+    <meta name="keywords" content="Deriv trading bot, free trading bots, bot builder, automated trading, DTrader automation, synthetic indices, forex trading bot" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nyanyuki.site" />
+    <meta property="og:title" content="Nyanyuki Trading" />
+    <meta property="og:description" content="Build and run free Deriv trading bots without coding. Create custom strategies with our Bot Builder." />
+    <meta property="og:image" content="https://nyanyuki.site/nyanyuki-logo.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://nyanyuki.site" />
+    <meta property="twitter:title" content="Nyanyuki Trading" />
+    <meta property="twitter:description" content="Build and run free Deriv trading bots without coding. Create custom strategies with our Bot Builder." />
+    <meta property="twitter:image" content="https://nyanyuki.site/nyanyuki-logo.png" />
+    
+    <link rel="canonical" href="https://nyanyuki.site" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #4a00e0;
+            --primary-dark: #2b0080;
+            --secondary: #8e2de2;
+            --accent: #22c55e;
+            --accent-orange: #f97316;
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --dark-bg: #0f172a;
+            --darker-bg: #020617;
+            --card-bg: #1e293b;
+            --card-hover: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 62.5%;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 1.6rem;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(74, 0, 224, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(142, 45, 226, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+        
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-content {
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(74, 0, 224, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .loading-text {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0.5rem;
+        }
+        
+        .status-online {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .status-offline {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .status-demo {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .status-real {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        /* Header & Navigation */
+        .header {
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        
+        .logo-icon {
+            width: 4rem;
+            height: 4rem;
+            background: var(--gradient);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 20px rgba(74, 0, 224, 0.3);
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-main {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        
+        .logo-tagline {
+            font-size: 1rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-top: 0.3rem;
+        }
+        
+        /* User Profile Area */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-left: auto;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.3rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: var(--text-light);
+            max-width: 15rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .user-balance {
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .account-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 1.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+        
+        .badge-demo {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .badge-real {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .user-avatar {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Account Switcher Dropdown */
+        .account-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 320px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+        
+        .account-dropdown.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dropdown-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown-header h3 {
+            font-size: 1.6rem;
+            color: var(--text-light);
+        }
+        
+        .close-dropdown {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+        
+        .close-dropdown:hover {
+            color: var(--text-light);
+        }
+        
+        .accounts-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .account-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .account-item:hover {
+            background: var(--card-hover);
+        }
+        
+        .account-item.active {
+            background: rgba(74, 0, 224, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .account-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .account-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .account-icon.demo {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+        
+        .account-icon.real {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+        }
+        
+        .account-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .account-name {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 1.4rem;
+        }
+        
+        .account-id {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+        
+        .account-type-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .account-type-badge.demo {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .account-type-badge.real {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .dropdown-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-login {
+            padding: 1rem 2rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(74, 0, 224, 0.3);
+            font-size: 1.4rem;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(74, 0, 224, 0.4);
+        }
+        
+        /* Main Container */
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+            margin-top: 8rem;
+        }
+        
+        /* Side Navigation */
+        .side-nav {
+            width: 8rem;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            position: fixed;
+            left: 0;
+            top: 8rem;
+            bottom: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            overflow-y: auto;
+        }
+        
+        .nav-item {
+            width: 6rem;
+            height: 6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .nav-item i {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-item span {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .nav-item:hover {
+            background: rgba(74, 0, 224, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-item.active {
+            background: rgba(74, 0, 224, 0.2);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--primary);
+            border-radius: 0 2px 2px 0;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 8rem;
+            padding: 3rem;
+            max-width: calc(100% - 8rem);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .main-content.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Dashboard Content */
+        .welcome-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .welcome-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            max-width: 60rem;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+        
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-0.3rem);
+        }
+        
+        .stat-value {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .action-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-0.5rem);
+            border-color: var(--primary);
+            background: var(--card-hover);
+        }
+        
+        .action-icon {
+            width: 6rem;
+            height: 6rem;
+            background: rgba(74, 0, 224, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2.4rem;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .action-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        
+        .action-card p {
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Account Switcher Section */
+        .account-switcher-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            border: 1px solid var(--glass-border);
+            margin-top: 3rem;
+        }
+        
+        .account-switcher-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .account-switcher-header h2 {
+            font-size: 2.4rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .account-switcher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2rem;
+        }
+        
+        .account-switcher-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .account-switcher-card:hover {
+            background: rgba(74, 0, 224, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .account-switcher-card.active {
+            background: rgba(74, 0, 224, 0.2);
+            border-color: var(--primary);
+            border-width: 2px;
+        }
+        
+        .account-switcher-icon {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+        
+        .account-switcher-icon.demo {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+        
+        .account-switcher-icon.real {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+        }
+        
+        .account-switcher-details {
+            flex: 1;
+        }
+        
+        .account-switcher-name {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .account-switcher-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .account-switcher-id {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+        
+        .account-switcher-badge {
+            padding: 0.3rem 1rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .account-switcher-badge.demo {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .account-switcher-badge.real {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        /* Bot Cards Grid */
+        .bot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+        
+        .bot-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bot-card:hover {
+            transform: translateY(-0.5rem);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+            background: var(--card-hover);
+        }
+        
+        .bot-badge {
+            display: inline-block;
+            background: rgba(74, 0, 224, 0.15);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            align-self: flex-start;
+        }
+        
+        .bot-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        
+        .bot-description {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            font-size: 1.4rem;
+            line-height: 1.6;
+        }
+        
+        .bot-features {
+            margin-bottom: 2rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+        }
+        
+        .feature i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 1.2rem 2.4rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 20px rgba(74, 0, 224, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(74, 0, 224, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(74, 0, 224, 0.1);
+        }
+        
+        .btn-disabled {
+            background: #4b5563;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .btn-disabled:hover {
+            transform: none;
+            box-shadow: 0 4px 20px rgba(74, 0, 224, 0.3);
+        }
+        
+        /* Login Overlay */
+        .login-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .login-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .login-overlay h3 {
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .login-overlay p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 30rem;
+            font-size: 1.4rem;
+        }
+        
+        /* Trading Platform Section */
+        .trading-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            border: 1px solid var(--glass-border);
+            margin-top: 3rem;
+        }
+        
+        .trading-section h2 {
+            font-size: 2.4rem;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--darker-bg);
+            padding: 3rem 2rem 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 4rem;
+            margin-left: 8rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* WhatsApp Float Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 2.4rem;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem 2rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            font-size: 2rem;
+        }
+        
+        .notification-success .notification-icon {
+            color: var(--accent);
+        }
+        
+        .notification-error .notification-icon {
+            color: var(--accent-red);
+        }
+        
+        .notification-info .notification-icon {
+            color: var(--accent-blue);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+        }
+        
+        .notification-message {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+        }
+        
+        .close-notification {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.8rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            html {
+                font-size: 55%;
+            }
+            
+            .side-nav {
+                width: 6rem;
+            }
+            
+            .nav-item {
+                width: 5rem;
+                height: 5rem;
+            }
+            
+            .nav-item i {
+                font-size: 2rem;
+            }
+            
+            .nav-item span {
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                margin-left: 6rem;
+                max-width: calc(100% - 6rem);
+                padding: 2rem;
+            }
+            
+            .footer {
+                margin-left: 6rem;
+            }
+            
+            .welcome-title {
+                font-size: 2.4rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .bot-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .account-dropdown {
+                width: 300px;
+                right: -50px;
+            }
+            
+            .whatsapp-float {
+                width: 5rem;
+                height: 5rem;
+                font-size: 2rem;
+                bottom: 2rem;
+                right: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .logo-main {
+                font-size: 1.6rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.9rem;
+            }
+            
+            .btn-login {
+                padding: 0.8rem 1.2rem;
+                font-size: 1.2rem;
+            }
+            
+            .user-avatar {
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.2rem;
+            }
+            
+            .side-nav {
+                width: 5rem;
+            }
+            
+            .nav-item {
+                width: 4rem;
+                height: 4rem;
+            }
+            
+            .nav-item i {
+                font-size: 1.8rem;
+            }
+            
+            .nav-item span {
+                font-size: 0.8rem;
+            }
+            
+            .main-content {
+                margin-left: 5rem;
+                max-width: calc(100% - 5rem);
+                padding: 1.5rem;
+            }
+            
+            .footer {
+                margin-left: 5rem;
+            }
+            
+            .account-dropdown {
+                width: 280px;
+                right: -70px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-<header>
-  <div class="logo">
-    <h1>Nyanyuki.site</h1>
-    <p>Free DBot Strategies • Volatility Tools • Live Analysis</p>
-  </div>
-  <div class="auth-area">
-    <span id="userStatus" class="user-status">Logged in</span>
-    <span id="balanceDisplay" style="color:#22c55e; margin-left:10px;"></span>
-    <a href="https://nyanyuki-backend.onrender.com/auth/deriv" class="login-btn" id="loginBtn">Login / Sign Up</a>
-    <a href="#" class="logout-btn" id="logoutBtn" onclick="logout()">Logout</a>
-  </div>
-</header>
-
-<div class="navbar">
-  <a href="#freebots">🤖 Free Bots</a>
-  <a href="#botsettings">⚙ Bot Settings</a>
-  <a href="#charts">📊 Charts</a>
-  <a href="#dcircles">⭕ DCircles</a>
-  <a href="#analysis">📈 Analysis</a>
-  <a href="#tools">🛠 Tools</a>
-  <a href="#copytrading">📋 Copytrading</a>
-  <a href="#strategy">📘 Strategy</a>
-  <a href="#signals">🚨 Signals</a>
-  <a href="#tutorials">🎓 Tutorials</a>
-</div>
-
-<!-- Free Bots Section -->
-<section id="freebots">
-<h2>FreeBot Strategies</h2>
-<div class="grid">
-  <div class="card">
-    <h3>Volatility 50 Trend Bot</h3>
-    <p>Trend-following DBot strategy for stable volatility.</p>
-    <a class="btn-primary" href="/bots/vol50_trend.xml" download>Download Bot</a>
-    <a class="btn-secondary" href="#" onclick="tradeBot('Volatility 50 Trend Bot', 2)">Trade Now</a>
-  </div>
-  <div class="card">
-    <h3>Volatility Martingale Bot</h3>
-    <p>Stake 2, multiplier 2, max 9 trades</p>
-    <a class="btn-primary" href="/bots/vol50_martingale.xml" download>Download Bot</a>
-    <a class="btn-secondary" href="#" onclick="tradeBot('Volatility Martingale Bot', 2)">Trade Now</a>
-  </div>
-</div>
-</section>
-
-<!-- Bot Settings Modal -->
-<div id="bot-settings-modal">
-<div id="bot-settings-content">
-<h3 id="bot-settings-title">Bot Settings</h3>
-<label>Stake:</label>
-<input type="number" id="bot-stake" value="2">
-<label>Multiplier:</label>
-<input type="number" id="bot-multiplier" value="2">
-<label>Max Trades:</label>
-<input type="number" id="bot-maxtrades" value="9">
-<button onclick="saveBotSettings()">Save Settings</button>
-<button onclick="closeBotSettings()">Cancel</button>
-</div>
-</div>
-
-<a href="https://wa.me/254716038792" target="_blank" class="whatsapp-button">Chat with Me</a>
-
-<footer>
-<p>© 2025 Nyanyuki.site • Trading is risky. Bots are for educational purposes only.</p>
-<div class="social-links">
-  <a href="https://www.facebook.com/nyanyuki.bornvick" target="_blank">Facebook</a>
-  <a href="https://www.instagram.com/nyanyuki_bornvick" target="_blank">Instagram</a>
-</div>
-</footer>
-
-<script>
-// ---------------------
-// Bot Settings Logic
-// ---------------------
-let currentBot = '';
-function openBotSettings(botName){
-  currentBot = botName;
-  document.getElementById('bot-settings-title').innerText = botName + " Settings";
-  document.getElementById('bot-settings-modal').style.display = 'flex';
-}
-function closeBotSettings(){ document.getElementById('bot-settings-modal').style.display='none'; }
-function saveBotSettings(){
-  const stake=document.getElementById('bot-stake').value;
-  const multiplier=document.getElementById('bot-multiplier').value;
-  const maxTrades=document.getElementById('bot-maxtrades').value;
-  localStorage.setItem(currentBot+"_settings", JSON.stringify({stake,multiplier,maxTrades}));
-  alert("Settings saved for "+currentBot);
-  closeBotSettings();
-}
-
-// ---------------------
-// Deriv Login Logic
-// ---------------------
-const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
-if(token){
-  localStorage.setItem("deriv_token", token);
-  window.history.replaceState({}, document.title, "/");
-}
-
-if(localStorage.getItem("deriv_token")){
-  document.getElementById("loginBtn").style.display="none";
-  document.getElementById("logoutBtn").style.display="inline-block";
-  document.getElementById("userStatus").style.display="inline";
-  showBalance();
-}
-
-function logout(){
-  localStorage.removeItem("deriv_token");
-  location.reload();
-}
-
-// ---------------------
-// Fetch Deriv Balance
-// ---------------------
-async function showBalance(){
-  const token = localStorage.getItem("deriv_token");
-  try{
-    const res = await fetch("https://nyanyuki-backend.onrender.com/balance", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    document.getElementById("balanceDisplay").innerText = `Balance: ${data.balance || 0}`;
-  } catch(err){
-    console.error("Balance fetch error", err);
-  }
-}
-
-// ---------------------
-// Place trade from Free Bot
-// ---------------------
-async function tradeBot(botName, stake=2){
-  const token = localStorage.getItem("deriv_token");
-  try{
-    const res = await fetch("https://nyanyuki-backend.onrender.com/trade", {
-      method: "POST",
-      headers: { "Content-Type":"application/json", "Authorization": `Bearer ${token}` },
-      body: JSON.stringify({ botName, stake })
-    });
-    const result = await res.json();
-    alert("Trade Result: " + JSON.stringify(result));
-    showBalance();
-  } catch(err){
-    console.error("Trade error", err);
-  }
-}
-</script>
-
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading Nyanyuki Trading...</div>
+        </div>
+    </div>
+    
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">N</div>
+                <div class="logo-text">
+                    <div class="logo-main">Nyanyuki Trading</div>
+                    <div class="logo-tagline">Automated Trading Platform</div>
+                </div>
+            </div>
+            
+            <!-- User Profile Area -->
+            <div id="userProfileArea" class="user-profile" style="display: none;">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-balance" id="userBalance">
+                        <i class="fas fa-wallet"></i>
+                        <span id="balanceAmount">0.00</span>
+                        <span id="currency">USD</span>
+                    </div>
+                    <div class="account-badge badge-demo" id="accountBadge">Demo</div>
+                </div>
+                <div class="user-avatar" id="userAvatar" onclick="toggleAccountDropdown()">
+                    <i class="fas fa-user"></i>
+                </div>
+                
+                <!-- Account Dropdown -->
+                <div class="account-dropdown" id="accountDropdown">
+                    <div class="dropdown-header">
+                        <h3>Switch Account</h3>
+                        <button class="close-dropdown" onclick="toggleAccountDropdown()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="accounts-list" id="accountsList">
+                        <!-- Accounts will be loaded here -->
+                    </div>
+                    <div class="dropdown-footer">
+                        <button class="btn btn-outline" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Login Button -->
+            <div class="auth-buttons" id="authArea">
+                <a href="#" class="btn-login" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login with Deriv
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Side Navigation -->
+        <nav class="side-nav">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" data-section="botbuilder">
+                <i class="fas fa-code"></i>
+                <span>Bot Builder</span>
+            </a>
+            <a href="#" class="nav-item" data-section="freebots">
+                <i class="fas fa-robot"></i>
+                <span>Free Bots</span>
+            </a>
+            <a href="#" class="nav-item" data-section="trade">
+                <i class="fas fa-chart-line"></i>
+                <span>Trading</span>
+            </a>
+            <a href="#" class="nav-item" data-section="dcircles">
+                <i class="fas fa-chart-pie"></i>
+                <span>DCircles</span>
+            </a>
+            <a href="#" class="nav-item" data-section="analysis">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analysis</span>
+            </a>
+            <a href="#" class="nav-item" data-section="tools">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </a>
+            <a href="#" class="nav-item" data-section="strategy">
+                <i class="fas fa-chess-board"></i>
+                <span>Strategy</span>
+            </a>
+            <a href="#" class="nav-item" data-section="copytrading">
+                <i class="fas fa-users"></i>
+                <span>Copy Trade</span>
+            </a>
+            <a href="#" class="nav-item" data-section="signals">
+                <i class="fas fa-bell"></i>
+                <span>Signals</span>
+            </a>
+            <a href="#" class="nav-item" data-section="tutorials">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Tutorials</span>
+            </a>
+        </nav>
+        
+        <!-- Dashboard Content (Default Active) -->
+        <main class="main-content active" id="dashboard-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Welcome to Nyanyuki Trading</h1>
+                <p class="welcome-subtitle">
+                    Your gateway to automated trading. Build custom bots, access free trading bots, 
+                    real-time analysis, and professional tools to enhance your trading experience.
+                </p>
+                <div id="dashboardStatus" class="status-badge status-offline">
+                    <i class="fas fa-exclamation-circle"></i> Login Required
+                </div>
+                <br>
+                <a href="#" class="btn" id="dashboardLoginBtn" style="font-size: 1.6rem; padding: 1.5rem 3rem;">
+                    <i class="fas fa-sign-in-alt"></i> Connect Your Deriv Account
+                </a>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="dashboardBalance">$0.00</div>
+                    <div class="stat-label">Account Balance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="botCount">7</div>
+                    <div class="stat-label">Free Bots</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="successRate">94%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeUsers">2.5K</div>
+                    <div class="stat-label">Active Traders</div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="showSection('botbuilder')">
+                    <div class="action-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Bot Builder</h3>
+                    <p>Create your own trading bots with Deriv's visual bot builder</p>
+                    <div class="btn btn-outline">Build Your Bot</div>
+                </div>
+                
+                <div class="action-card" onclick="showSection('freebots')">
+                    <div class="action-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Free Trading Bots</h3>
+                    <p>Access our collection of 7 free trading bots optimized for Deriv</p>
+                    <div class="btn btn-outline">Explore Bots</div>
+                </div>
+                
+                <div class="action-card" onclick="showSection('trade')">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Manual Trading</h3>
+                    <p>Access Deriv trading platform with our pre-configured app ID</p>
+                    <div class="btn btn-outline">Start Trading</div>
+                </div>
+                
+                <div class="action-card" onclick="window.open('https://wa.me/254716038792', '_blank')">
+                    <div class="action-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>Get Support</h3>
+                    <p>24/7 WhatsApp support for any questions or assistance</p>
+                    <div class="btn btn-outline">Chat Now</div>
+                </div>
+            </div>
+            
+            <!-- Account Switcher Section -->
+            <div class="account-switcher-section" id="accountSwitcherSection" style="display: none;">
+                <div class="account-switcher-header">
+                    <h2>Select Trading Account</h2>
+                    <button class="btn btn-outline" onclick="refreshAccounts()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="account-switcher-grid" id="accountSwitcherGrid">
+                    <!-- Account cards will be loaded here -->
+                </div>
+                
+                <div class="account-info" style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: var(--border-radius-sm);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-info-circle" style="color: var(--accent-blue);"></i>
+                        <span style="font-weight: 600; color: var(--text-light);">Account Information</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <div style="font-size: 1.2rem; color: var(--text-muted);">Active Account:</div>
+                            <div style="font-weight: 600; color: var(--text-light);" id="activeAccountId">Not selected</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.2rem; color: var(--text-muted);">Account Type:</div>
+                            <div style="font-weight: 600; color: var(--text-light);" id="activeAccountType">Not selected</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.2rem; color: var(--text-muted);">Currency:</div>
+                            <div style="font-weight: 600; color: var(--text-light);" id="activeAccountCurrency">USD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account Info Card -->
+            <div class="trading-section" id="accountInfoSection">
+                <h2>Account Overview</h2>
+                <div id="loginStatus" class="status-badge status-offline">Not logged in</div>
+                <div id="accountType" class="status-badge status-demo" style="margin-top: 10px; display: none;">Demo Account</div>
+                <p id="balance" style="margin-top: 15px; font-size: 1.4rem;"></p>
+                <p style="margin-top: 15px; color: var(--text-muted); font-size: 1.4rem;">
+                    Connect your Deriv account to access all trading bots and tools.
+                </p>
+                <a href="#" class="btn" id="connectBtn" style="margin-top: 15px;">
+                    <i class="fas fa-plug"></i> Connect to Deriv
+                </a>
+            </div>
+        </main>
+        
+        <!-- Bot Builder Content -->
+        <main class="main-content" id="botbuilder-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Deriv Bot Builder</h1>
+                <p class="welcome-subtitle">
+                    Create your own custom trading bots using Deriv's visual bot builder. 
+                    No coding required - design, test, and deploy your strategies.
+                </p>
+                
+                <div class="status-badge status-online" id="botBuilderStatus">
+                    <i class="fas fa-circle"></i> Bot Builder Ready
+                </div>
+            </div>
+            
+            <!-- Bot Builder Iframe -->
+            <div class="trading-section">
+                <h2>Bot Builder Interface</h2>
+                <div style="margin-bottom: 20px;">
+                    <p>Access the official Deriv Bot Builder to create and test your trading strategies.</p>
+                    <div class="status-badge" id="botBuilderLoginStatus" style="margin-top: 1rem;">
+                        <i class="fas fa-info-circle"></i> Login required to access bot builder
+                    </div>
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 25px;">
+                    <a class="btn" target="_blank" href="https://app.deriv.com/bot-builder" id="botBuilderBtn">
+                        <i class="fas fa-external-link-alt"></i> Open Deriv Bot Builder
+                    </a>
+                    
+                    <a class="btn btn-outline" onclick="showSection('tutorials')">
+                        <i class="fas fa-graduation-cap"></i> Bot Builder Tutorials
+                    </a>
+                </div>
+                
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.05); border-radius: var(--border-radius-sm);">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-light);">How to Use Bot Builder</h3>
+                    <div class="bot-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Step 1:</strong> Click "Open Deriv Bot Builder" button above</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Step 2:</strong> Login to your Deriv account if not already logged in</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Step 3:</strong> Start with a template or build from scratch</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Step 4:</strong> Drag and drop blocks to create your strategy</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Step 5:</strong> Test your bot with historical data</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Step 6:</strong> Deploy and monitor performance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Free Bots Content -->
+        <main class="main-content" id="freebots-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Free Trading Bots</h1>
+                <p class="welcome-subtitle">
+                    Access our collection of 7 professionally designed trading bots. 
+                    Each bot is optimized for the Deriv platform and completely free to use.
+                </p>
+                <div class="status-badge status-online" id="botsStatus">
+                    <i class="fas fa-circle"></i> All Bots Operational
+                </div>
+                <p style="margin-top: 2rem; color: var(--text-muted); max-width: 800px;">
+                    <span id="loginPrompt" style="color: var(--primary); font-weight: 600;">Login to access all features.</span>
+                </p>
+            </div>
+            
+            <div class="bot-grid" id="botGrid">
+                <!-- Bot cards will be loaded dynamically -->
+            </div>
+            
+            <div class="trading-section" style="margin-top: 4rem;">
+                <h2>How to Use These Bots</h2>
+                <div class="bot-features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>Step 1:</strong> Login with your Deriv account using the button above</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>Step 2:</strong> Click "Run on Deriv" button on any bot below</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>Step 3:</strong> Bot will open in Deriv DBot interface</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>Step 4:</strong> Configure parameters and click "Run"</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>Step 5:</strong> Always test in Demo account first before using real money</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Trading Content -->
+        <main class="main-content" id="trade-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Manual Trading Platform</h1>
+                <p class="welcome-subtitle">
+                    Access the full Deriv trading platform with our app ID pre-configured. 
+                    Trade synthetic indices, forex, commodities, and more.
+                </p>
+            </div>
+            
+            <div class="trading-section">
+                <h2>Deriv Trading Platform</h2>
+                <p style="margin-bottom: 20px; font-size: 1.6rem;">
+                    You'll have access to all trading instruments, advanced charts, and professional trading tools.
+                </p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 25px;">
+                    <a class="btn btn-disabled" id="manualTradeBtn">
+                        <i class="fas fa-lock"></i> Login to Access Trading
+                    </a>
+                    <a class="btn" target="_blank" href="https://app.deriv.com/?app_id=116721" style="display: none;" id="realManualTradeBtn">
+                        <i class="fas fa-chart-line"></i> Open Deriv Trading Platform
+                    </a>
+                    
+                    <a class="btn btn-outline" onclick="showSection('tutorials')">
+                        <i class="fas fa-graduation-cap"></i> Trading Tutorials
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Tutorials Content -->
+        <main class="main-content" id="tutorials-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Tutorials & Education</h1>
+                <p class="welcome-subtitle">
+                    Learn how to use our trading bots and platform effectively with our comprehensive tutorials.
+                </p>
+            </div>
+            
+            <div class="bot-grid">
+                <div class="bot-card">
+                    <h3 class="bot-title">Getting Started with Bots</h3>
+                    <p class="bot-description">
+                        Complete step-by-step guide to run your first DBot on Deriv platform.
+                        Learn configuration, risk management, and optimization.
+                    </p>
+                    <div class="bot-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Bot setup and configuration</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Risk parameter settings</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Performance monitoring</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+                
+                <div class="bot-card">
+                    <h3 class="bot-title">Bot Builder Guide</h3>
+                    <p class="bot-description">
+                        Learn how to create custom trading bots using Deriv's visual bot builder.
+                        From basic strategies to advanced automation.
+                    </p>
+                    <div class="bot-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Block-based programming</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Strategy testing and optimization</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Deployment and monitoring</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+                
+                <div class="bot-card">
+                    <h3 class="bot-title">Risk Management Masterclass</h3>
+                    <p class="bot-description">
+                        Essential strategies to protect your capital while trading.
+                        Learn position sizing, stop losses, and risk control.
+                    </p>
+                    <div class="bot-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Position sizing strategies</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Stop loss optimization</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Risk-reward ratio analysis</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Other Sections (Placeholder) -->
+        <main class="main-content" id="dcircles-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">DCircles Analysis</h1>
+                <p class="welcome-subtitle">
+                    Advanced visual indicators for volatility trends and trading signals.
+                    Coming soon with real-time analytics.
+                </p>
+            </div>
+        </main>
+        
+        <main class="main-content" id="analysis-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Market Analysis</h1>
+                <p class="welcome-subtitle">
+                    Real-time analysis tools for Volatility indices with advanced charting capabilities.
+                    Coming soon.
+                </p>
+            </div>
+        </main>
+        
+        <main class="main-content" id="tools-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Trading Tools</h1>
+                <p class="welcome-subtitle">
+                    Additional trading and automation tools to enhance your trading experience.
+                    Coming soon.
+                </p>
+            </div>
+        </main>
+        
+        <main class="main-content" id="strategy-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Trading Strategies</h1>
+                <p class="welcome-subtitle">
+                    Detailed trading strategies and setups for various market conditions.
+                    Coming soon.
+                </p>
+            </div>
+        </main>
+        
+        <main class="main-content" id="copytrading-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Copy Trading</h1>
+                <p class="welcome-subtitle">
+                    Copy trades from verified strategies and successful traders.
+                    Coming soon.
+                </p>
+            </div>
+        </main>
+        
+        <main class="main-content" id="signals-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Trading Signals</h1>
+                <p class="welcome-subtitle">
+                    Live trade signals and alerts based on advanced market analysis.
+                    Coming soon.
+                </p>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="copyright">
+            © 2025 Nyanyuki Trading Platform • Trades executed on Deriv • For educational purposes only • High risk investment warning
+        </div>
+    </footer>
+    
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/254716038792" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script>
+        // ===========================================
+        // DEPLOYMENT CONFIGURATION
+        // ===========================================
+        const CONFIG = {
+            // FOR LOCAL DEVELOPMENT:
+            // BACKEND_URL: 'http://localhost:3000',
+            
+            // FOR PRODUCTION DEPLOYMENT:
+            BACKEND_URL: 'https://nyanyuki-backend.onrender.com',
+            
+            DERIV_APP_ID: 116721,
+            FRONTEND_URL: 'https://nyanyuki.site',
+            WHATSAPP_NUMBER: '254716038792'
+        };
+        
+        let token = localStorage.getItem("deriv_token");
+        let currentSection = 'dashboard';
+        let userAccounts = [];
+        let activeAccount = null;
+        
+        // Bot data
+        const bots = [
+            {
+                id: 1,
+                badge: "Risk Management",
+                title: "Simple Martingale Bot",
+                description: "Classic martingale strategy with auto-stop loss and profit target. Doubles stake after loss, resets after win.",
+                features: [
+                    "Auto stop loss & take profit",
+                    "Max consecutive losses protection",
+                    "Works on Volatility indices"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/simple_martingale.xml`
+            },
+            {
+                id: 2,
+                badge: "Trend Following",
+                title: "EMA Crossover Bot",
+                description: "Exponential Moving Average crossover strategy with dual timeframe confirmation and dynamic stop loss.",
+                features: [
+                    "Fast & Slow EMA combination",
+                    "Trend confirmation system",
+                    "Optimal for 5-15 min timeframes"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/ema_crossover.xml`
+            },
+            {
+                id: 3,
+                badge: "Momentum Trading",
+                title: "RSI Reversal Bot",
+                description: "Relative Strength Index strategy that trades reversals at overbought (70) and oversold (30) levels.",
+                features: [
+                    "RSI 14 period optimized",
+                    "Price action confirmation",
+                    "Works on all timeframes"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/rsi_reversal.xml`
+            },
+            {
+                id: 4,
+                badge: "Range Trading",
+                title: "Stochastic Bot",
+                description: "Stochastic oscillator strategy with %K and %D line crossovers for precise entry and exit signals.",
+                features: [
+                    "14,3,3 standard settings",
+                    "Overbought/oversold alerts",
+                    "Best for ranging markets"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/stochastic_bot.xml`
+            },
+            {
+                id: 5,
+                badge: "Trend Analysis",
+                title: "MACD Trend Bot",
+                description: "Moving Average Convergence Divergence bot that trades signal line crossovers with histogram confirmation.",
+                features: [
+                    "12,26,9 standard settings",
+                    "Histogram momentum analysis",
+                    "Zero line crossover signals"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/macd_trend.xml`
+            },
+            {
+                id: 6,
+                badge: "Trend Reversal",
+                title: "Parabolic SAR Bot",
+                description: "Parabolic Stop and Reverse system that identifies trend direction changes with trailing stop loss.",
+                features: [
+                    "0.02 step, 0.2 maximum",
+                    "Auto trailing stop loss",
+                    "Best for strong trends"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/parabolic_sar.xml`
+            },
+            {
+                id: 7,
+                badge: "Mean Reversion",
+                title: "Bollinger Bands Bot",
+                description: "Bollinger Bands strategy that trades price reverting to the mean from upper/lower band extremes.",
+                features: [
+                    "20 period, 2 standard deviations",
+                    "Band squeeze detection",
+                    "Volatility-based position sizing"
+                ],
+                url: `https://dbot.deriv.com/bot?app_id=${CONFIG.DERIV_APP_ID}&file=https://raw.githubusercontent.com/Nyanyuki/bots/main/bollinger_bands.xml`
+            }
+        ];
+        
+        // ===========================================
+        // INITIALIZATION
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 300);
+            }, 1000);
+            
+            // Setup navigation
+            setupNavigation();
+            
+            // Handle token from URL
+            handleTokenFromURL();
+            
+            // Render bots
+            renderBots();
+            
+            // Update interface based on login state
+            if (token) {
+                fetchUserAccountInfo();
+                fetchUserAccounts();
+                updateInterfaceForLoginState();
+            } else {
+                updateInterfaceForLoginState();
+            }
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Update login URLs
+            updateLoginUrls();
+        });
+        
+        // ===========================================
+        // SETUP FUNCTIONS
+        // ===========================================
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all items
+                    navItems.forEach(navItem => navItem.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const section = this.getAttribute('data-section');
+                    showSection(section);
+                });
+            });
+        }
+        
+        function setupEventListeners() {
+            // Connect button
+            const connectBtn = document.getElementById('connectBtn');
+            if (connectBtn) {
+                connectBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!token) {
+                        window.location.href = `${CONFIG.BACKEND_URL}/auth/deriv`;
+                    } else {
+                        fetchUserAccountInfo();
+                        fetchUserAccounts();
+                        showNotification('Account data refreshed', 'info');
+                    }
+                });
+            }
+            
+            // Dashboard login button
+            const dashboardLoginBtn = document.getElementById('dashboardLoginBtn');
+            if (dashboardLoginBtn) {
+                dashboardLoginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!token) {
+                        window.location.href = `${CONFIG.BACKEND_URL}/auth/deriv`;
+                    }
+                });
+            }
+            
+            // Close account dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('accountDropdown');
+                const avatar = document.getElementById('userAvatar');
+                
+                if (dropdown && dropdown.classList.contains('show') && 
+                    !dropdown.contains(event.target) && 
+                    !avatar.contains(event.target)) {
+                    toggleAccountDropdown();
+                }
+            });
+        }
+        
+        function updateLoginUrls() {
+            // Update all login button URLs
+            const loginBtn = document.getElementById('loginBtn');
+            const dashboardLoginBtn = document.getElementById('dashboardLoginBtn');
+            
+            if (loginBtn) {
+                loginBtn.href = `${CONFIG.BACKEND_URL}/auth/deriv`;
+            }
+            
+            if (dashboardLoginBtn) {
+                dashboardLoginBtn.href = `${CONFIG.BACKEND_URL}/auth/deriv`;
+            }
+        }
+        
+        // ===========================================
+        // SECTION MANAGEMENT
+        // ===========================================
+        function showSection(section) {
+            // Hide all content sections
+            document.querySelectorAll('.main-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected section
+            const sectionElement = document.getElementById(`${section}-content`);
+            if (sectionElement) {
+                sectionElement.classList.add('active');
+            }
+            
+            // Update current section
+            currentSection = section;
+            
+            // If showing freebots, render bots if not already rendered
+            if (section === 'freebots') {
+                renderBots();
+            }
+            
+            // If showing dashboard, refresh accounts
+            if (section === 'dashboard' && token) {
+                fetchUserAccounts();
+            }
+        }
+        
+        // ===========================================
+        // ACCOUNT MANAGEMENT
+        // ===========================================
+        async function fetchUserAccountInfo() {
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${CONFIG.BACKEND_URL}/api/account`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const accountData = await response.json();
+                    updateUserProfile(accountData);
+                    
+                    // Also fetch balance
+                    await fetchBalance();
+                    
+                } else if (response.status === 401) {
+                    // Token expired or invalid
+                    localStorage.removeItem("deriv_token");
+                    token = null;
+                    updateInterfaceForLoginState();
+                    showNotification('Session expired. Please login again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching account info:', error);
+                showNotification('Error fetching account information', 'error');
+            }
+        }
+        
+        async function fetchBalance() {
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${CONFIG.BACKEND_URL}/api/balance`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const balanceData = await response.json();
+                    updateBalance(balanceData);
+                }
+            } catch (error) {
+                console.error('Error fetching balance:', error);
+            }
+        }
+        
+        async function fetchUserAccounts() {
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${CONFIG.BACKEND_URL}/api/accounts`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const accountsData = await response.json();
+                    userAccounts = accountsData.accounts;
+                    activeAccount = accountsData.active_account;
+                    
+                    // Update UI with accounts
+                    updateAccountsUI(userAccounts, activeAccount);
+                    
+                    // Update account switcher section
+                    updateAccountSwitcherUI(userAccounts, activeAccount);
+                    
+                } else if (response.status === 401) {
+                    // Token expired
+                    localStorage.removeItem("deriv_token");
+                    token = null;
+                    updateInterfaceForLoginState();
+                }
+            } catch (error) {
+                console.error('Error fetching accounts:', error);
+            }
+        }
+        
+        async function switchAccount(accountId) {
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${CONFIG.BACKEND_URL}/api/switch-account`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ account_id: accountId })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        activeAccount = accountId;
+                        
+                        // Update UI
+                        updateAccountsUI(userAccounts, activeAccount);
+                        updateAccountSwitcherUI(userAccounts, activeAccount);
+                        
+                        // Refresh balance and account info
+                        fetchUserAccountInfo();
+                        
+                        // Close dropdown
+                        toggleAccountDropdown();
+                        
+                        showNotification(`Switched to ${result.account_type} account`, 'success');
+                    } else {
+                        showNotification('Failed to switch account', 'error');
+                    }
+                } else {
+                    showNotification('Failed to switch account', 'error');
+                }
+            } catch (error) {
+                console.error('Error switching account:', error);
+                showNotification('Error switching account', 'error');
+            }
+        }
+        
+        async function logout() {
+            try {
+                if (token) {
+                    await fetch(`${CONFIG.BACKEND_URL}/api/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                }
+                
+                // Clear local storage
+                localStorage.removeItem("deriv_token");
+                token = null;
+                userAccounts = [];
+                activeAccount = null;
+                
+                // Update UI
+                updateInterfaceForLoginState();
+                
+                // Close dropdown
+                toggleAccountDropdown();
+                
+                // Redirect to dashboard
+                showSection('dashboard');
+                
+                showNotification('Logged out successfully', 'info');
+                
+            } catch (error) {
+                console.error('Error logging out:', error);
+                
+                // Still clear local storage and update UI even if API call fails
+                localStorage.removeItem("deriv_token");
+                token = null;
+                userAccounts = [];
+                activeAccount = null;
+                updateInterfaceForLoginState();
+                showSection('dashboard');
+            }
+        }
+        
+        function refreshAccounts() {
+            if (token) {
+                fetchUserAccounts();
+                showNotification('Refreshing accounts...', 'info');
+            }
+        }
+        
+        // ===========================================
+        // UI UPDATE FUNCTIONS
+        // ===========================================
+        function updateUserProfile(accountData) {
+            const userName = document.getElementById('userName');
+            const accountBadge = document.getElementById('accountBadge');
+            const userAvatar = document.getElementById('userAvatar');
+            const loginStatus = document.getElementById('loginStatus');
+            const accountType = document.getElementById('accountType');
+            const dashboardStatus = document.getElementById('dashboardStatus');
+            const botBuilderLoginStatus = document.getElementById('botBuilderLoginStatus');
+            const botBuilderStatus = document.getElementById('botBuilderStatus');
+            
+            if (userName) userName.textContent = accountData.name || accountData.email || 'Deriv User';
+            
+            if (accountBadge) {
+                if (accountData.is_virtual) {
+                    accountBadge.className = 'account-badge badge-demo';
+                    accountBadge.textContent = 'Demo';
+                } else {
+                    accountBadge.className = 'account-badge badge-real';
+                    accountBadge.textContent = 'Real';
+                }
+            }
+            
+            // Update avatar initials
+            if (userAvatar) {
+                const name = accountData.name || accountData.email || 'DU';
+                const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                userAvatar.innerHTML = initials;
+            }
+            
+            // Update dashboard status
+            if (loginStatus) {
+                loginStatus.innerHTML = '<i class="fas fa-circle"></i> Connected to Deriv';
+                loginStatus.className = 'status-badge status-online';
+            }
+            
+            if (dashboardStatus) {
+                dashboardStatus.innerHTML = '<i class="fas fa-check-circle"></i> Account Connected';
+                dashboardStatus.className = 'status-badge status-online';
+            }
+            
+            if (botBuilderStatus) {
+                botBuilderStatus.innerHTML = '<i class="fas fa-check-circle"></i> Bot Builder Ready';
+                botBuilderStatus.className = 'status-badge status-online';
+            }
+            
+            if (botBuilderLoginStatus) {
+                botBuilderLoginStatus.innerHTML = '<i class="fas fa-check-circle"></i> Logged in - Access Granted';
+                botBuilderLoginStatus.className = 'status-badge status-online';
+            }
+            
+            if (accountType) {
+                accountType.style.display = "inline-flex";
+                if (accountData.is_virtual) {
+                    accountType.className = "status-badge status-demo";
+                    accountType.innerHTML = '<i class="fas fa-vial"></i> Demo Account';
+                } else {
+                    accountType.className = "status-badge status-real";
+                    accountType.innerHTML = '<i class="fas fa-money-bill-wave"></i> Real Account';
+                }
+            }
+        }
+        
+        function updateBalance(balanceData) {
+            const balanceAmount = document.getElementById('balanceAmount');
+            const currency = document.getElementById('currency');
+            const dashboardBalance = document.getElementById('dashboardBalance');
+            const balanceText = document.getElementById('balance');
+            
+            const formattedBalance = parseFloat(balanceData.balance || 0).toFixed(2);
+            
+            if (balanceAmount) balanceAmount.textContent = formattedBalance;
+            if (currency) currency.textContent = balanceData.currency || 'USD';
+            if (dashboardBalance) dashboardBalance.textContent = `$${formattedBalance}`;
+            if (balanceText) balanceText.innerHTML = `<strong>Balance:</strong> ${formattedBalance} ${balanceData.currency || 'USD'}`;
+        }
+        
+        function updateAccountsUI(accounts, activeAccountId) {
+            const accountsList = document.getElementById('accountsList');
+            if (!accountsList) return;
+            
+            if (accounts.length === 0) {
+                accountsList.innerHTML = `
+                    <div class="account-item">
+                        <div style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                            <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <div>No accounts found</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            accountsList.innerHTML = accounts.map(account => {
+                const isActive = account.loginid === activeAccountId;
+                const isDemo = account.account_type === 'virtual';
+                
+                return `
+                    <div class="account-item ${isActive ? 'active' : ''}" onclick="switchAccount('${account.loginid}')">
+                        <div class="account-left">
+                            <div class="account-icon ${isDemo ? 'demo' : 'real'}">
+                                <i class="fas ${isDemo ? 'fa-vial' : 'fa-money-bill-wave'}"></i>
+                            </div>
+                            <div class="account-details">
+                                <div class="account-name">${account.name || (isDemo ? 'Demo Account' : 'Real Account')}</div>
+                                <div class="account-id">${account.loginid}</div>
+                            </div>
+                        </div>
+                        <div class="account-type-badge ${isDemo ? 'demo' : 'real'}">
+                            ${isDemo ? 'Demo' : 'Real'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateAccountSwitcherUI(accounts, activeAccountId) {
+            const accountSwitcherSection = document.getElementById('accountSwitcherSection');
+            const accountSwitcherGrid = document.getElementById('accountSwitcherGrid');
+            const activeAccountIdElement = document.getElementById('activeAccountId');
+            const activeAccountTypeElement = document.getElementById('activeAccountType');
+            const activeAccountCurrencyElement = document.getElementById('activeAccountCurrency');
+            
+            if (!accountSwitcherSection || !accountSwitcherGrid) return;
+            
+            // Show/hide account switcher section
+            if (token && accounts.length > 0) {
+                accountSwitcherSection.style.display = 'block';
+            } else {
+                accountSwitcherSection.style.display = 'none';
+                return;
+            }
+            
+            // Update account cards
+            if (accounts.length === 0) {
+                accountSwitcherGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                        <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <div>No trading accounts found</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            accountSwitcherGrid.innerHTML = accounts.map(account => {
+                const isActive = account.loginid === activeAccountId;
+                const isDemo = account.account_type === 'virtual';
+                const activeAccount = accounts.find(acc => acc.loginid === activeAccountId);
+                
+                // Update active account info
+                if (isActive && activeAccountIdElement) {
+                    activeAccountIdElement.textContent = account.loginid;
+                    activeAccountTypeElement.textContent = isDemo ? 'Demo Account' : 'Real Account';
+                    activeAccountCurrencyElement.textContent = account.currency || 'USD';
+                }
+                
+                return `
+                    <div class="account-switcher-card ${isActive ? 'active' : ''}" onclick="switchAccount('${account.loginid}')">
+                        <div class="account-switcher-icon ${isDemo ? 'demo' : 'real'}">
+                            <i class="fas ${isDemo ? 'fa-vial' : 'fa-money-bill-wave'}"></i>
+                        </div>
+                        <div class="account-switcher-details">
+                            <div class="account-switcher-name">${account.name || (isDemo ? 'Demo Account' : 'Real Account')}</div>
+                            <div class="account-switcher-info">
+                                <div class="account-switcher-id">${account.loginid}</div>
+                                <div class="account-switcher-badge ${isDemo ? 'demo' : 'real'}">
+                                    ${isDemo ? 'Demo' : 'Real'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateInterfaceForLoginState() {
+            const authArea = document.getElementById('authArea');
+            const userProfileArea = document.getElementById('userProfileArea');
+            const connectBtn = document.getElementById('connectBtn');
+            const dashboardStatus = document.getElementById('dashboardStatus');
+            const accountSwitcherSection = document.getElementById('accountSwitcherSection');
+            const accountInfoSection = document.getElementById('accountInfoSection');
+            const loginBtn = document.getElementById('loginBtn');
+            const dashboardLoginBtn = document.getElementById('dashboardLoginBtn');
+            const botBuilderLoginStatus = document.getElementById('botBuilderLoginStatus');
+            const manualTradeBtn = document.getElementById('manualTradeBtn');
+            const realManualTradeBtn = document.getElementById('realManualTradeBtn');
+            const botsStatus = document.getElementById('botsStatus');
+            const loginPrompt = document.getElementById('loginPrompt');
+            
+            // Update login URLs
+            updateLoginUrls();
+            
+            if (!token) {
+                // Not logged in
+                authArea.style.display = 'flex';
+                userProfileArea.style.display = 'none';
+                if (accountSwitcherSection) accountSwitcherSection.style.display = 'none';
+                
+                if (connectBtn) {
+                    connectBtn.href = `${CONFIG.BACKEND_URL}/auth/deriv`;
+                    connectBtn.innerHTML = '<i class="fas fa-plug"></i> Connect to Deriv';
+                    connectBtn.onclick = null;
+                }
+                
+                if (dashboardStatus) {
+                    dashboardStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Login Required';
+                    dashboardStatus.className = 'status-badge status-offline';
+                }
+                
+                if (accountInfoSection) {
+                    accountInfoSection.style.display = 'block';
+                }
+                
+                if (botBuilderLoginStatus) {
+                    botBuilderLoginStatus.innerHTML = '<i class="fas fa-info-circle"></i> Login required to access bot builder';
+                    botBuilderLoginStatus.className = 'status-badge status-offline';
+                }
+                
+                // Update bots status message
+                if (botsStatus) {
+                    botsStatus.innerHTML = '<i class="fas fa-circle"></i> Login to Access Bots';
+                }
+                if (loginPrompt) {
+                    loginPrompt.style.display = 'inline';
+                }
+                
+                // Update manual trading button
+                if (manualTradeBtn) manualTradeBtn.style.display = 'inline-flex';
+                if (realManualTradeBtn) realManualTradeBtn.style.display = 'none';
+                
+            } else {
+                // Logged in
+                authArea.style.display = 'none';
+                userProfileArea.style.display = 'flex';
+                
+                if (connectBtn) {
+                    connectBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Data';
+                    connectBtn.onclick = function() { 
+                        fetchUserAccountInfo(); 
+                        fetchUserAccounts();
+                        showNotification('Refreshing account data...', 'info');
+                        return false; 
+                    };
+                }
+                
+                if (dashboardStatus) {
+                    dashboardStatus.innerHTML = '<i class="fas fa-check-circle"></i> Account Connected';
+                    dashboardStatus.className = 'status-badge status-online';
+                }
+                
+                if (accountInfoSection) {
+                    accountInfoSection.style.display = 'none';
+                }
+                
+                if (botBuilderLoginStatus) {
+                    botBuilderLoginStatus.innerHTML = '<i class="fas fa-check-circle"></i> Bot Builder Access Granted';
+                    botBuilderLoginStatus.className = 'status-badge status-online';
+                }
+                
+                // Update bots status message
+                if (botsStatus) {
+                    botsStatus.innerHTML = '<i class="fas fa-circle"></i> All Bots Ready to Use';
+                }
+                if (loginPrompt) {
+                    loginPrompt.style.display = 'none';
+                }
+                
+                // Update manual trading button
+                if (manualTradeBtn) manualTradeBtn.style.display = 'none';
+                if (realManualTradeBtn) realManualTradeBtn.style.display = 'inline-flex';
+            }
+            
+            // Re-render bots if we're in the freebots section
+            if (currentSection === 'freebots') {
+                renderBots();
+            }
+        }
+        
+        // ===========================================
+        // BOT MANAGEMENT
+        // ===========================================
+        function renderBots() {
+            const botGrid = document.getElementById('botGrid');
+            if (!botGrid) return;
+            
+            botGrid.innerHTML = '';
+            
+            bots.forEach(bot => {
+                const botCard = document.createElement('div');
+                botCard.className = 'bot-card';
+                botCard.innerHTML = `
+                    <span class="bot-badge">${bot.badge}</span>
+                    <h3 class="bot-title">${bot.title}</h3>
+                    <p class="bot-description">${bot.description}</p>
+                    
+                    <div class="bot-features">
+                        ${bot.features.map(feature => `
+                            <div class="feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>${feature}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    ${!token ? `
+                        <div class="login-overlay" id="loginOverlay${bot.id}">
+                            <h3>Login Required</h3>
+                            <p>Connect your Deriv account to run this trading bot.</p>
+                            <a href="${CONFIG.BACKEND_URL}/auth/deriv" class="btn">
+                                <i class="fas fa-sign-in-alt"></i> Login with Deriv
+                            </a>
+                        </div>
+                        
+                        <a class="btn btn-disabled bot-disabled-btn" id="botBtn${bot.id}">
+                            <i class="fas fa-lock"></i> Login to Run Bot
+                        </a>
+                    ` : `
+                        <a class="btn bot-real-btn" target="_blank" href="${bot.url}" id="realBotBtn${bot.id}">
+                            <i class="fas fa-play-circle"></i> Run on Deriv
+                        </a>
+                    `}
+                `;
+                botGrid.appendChild(botCard);
+                
+                // Add hover effect for login overlay if not logged in
+                if (!token) {
+                    const card = botCard;
+                    const overlay = card.querySelector(`#loginOverlay${bot.id}`);
+                    
+                    card.addEventListener('mouseenter', function() {
+                        overlay.classList.add('active');
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        overlay.classList.remove('active');
+                    });
+                }
+            });
+        }
+        
+        // ===========================================
+        // ACCOUNT DROPDOWN
+        // ===========================================
+        function toggleAccountDropdown() {
+            const dropdown = document.getElementById('accountDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('show');
+            }
+        }
+        
+        // ===========================================
+        // NOTIFICATION SYSTEM
+        // ===========================================
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            if (!container) return;
+            
+            const notificationId = 'notification-' + Date.now();
+            const icon = type === 'success' ? 'fa-check-circle' : 
+                        type === 'error' ? 'fa-exclamation-circle' : 
+                        'fa-info-circle';
+            
+            const notification = document.createElement('div');
+            notification.id = notificationId;
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="notification-message">${message}</div>
+                </div>
+                <button class="close-notification" onclick="removeNotification('${notificationId}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                removeNotification(notificationId);
+            }, 5000);
+        }
+        
+        function removeNotification(id) {
+            const notification = document.getElementById(id);
+            if (notification) {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+        }
+        
+        // ===========================================
+        // TOKEN HANDLING
+        // ===========================================
+        function handleTokenFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const urlToken = params.get("token1");
+            
+            if (urlToken) {
+                // Store token
+                localStorage.setItem("deriv_token", urlToken);
+                token = urlToken;
+                
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Update UI and fetch data
+                updateInterfaceForLoginState();
+                fetchUserAccountInfo();
+                fetchUserAccounts();
+                
+                showNotification('Successfully logged in!', 'success');
+                
+                // Auto-refresh balance every 30 seconds
+                setInterval(() => {
+                    if (token) {
+                        fetchUserAccountInfo();
+                    }
+                }, 30000);
+            }
+        }
+    </script>
 </body>
 </html>

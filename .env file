@@ -1,2 +1,19 @@
+# Production Environment Variables
+PORT=3000
+NODE_ENV=production
+
+# Frontend URL (Your live website)
+FRONTEND_URL=https://nyanyuki.site
+
+# Deriv Configuration
 DERIV_APP_ID=116721
-BASE_URL=http://localhost:3000
+
+# OAuth Redirect URI (Update this with your actual backend URL)
+REDIRECT_URI=https://nyanyuki-backend.onrender.com/auth/callback
+
+# Security
+SESSION_SECRET=your-super-secret-key-change-this-in-production
+TOKEN_EXPIRY=24h
+
+# Logging
+LOG_LEVEL=info
